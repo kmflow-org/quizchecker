@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quizchecker
+  namespace: quizchecker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quizchecker
+  template:
+    metadata:
+      labels:
+        app: quizchecker
+    spec:
+      serviceAccountName: quizchecker
+      containers:
+      - name: qchecker
+        image: 533675705859.dkr.ecr.us-west-2.amazonaws.com/quizchecker:v1
+        ports:
+        - containerPort: 8082
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.yaml
+          subPath: config.yaml
+      volumes:
+      - name: config
+        configMap:
+          name: quizchecker
