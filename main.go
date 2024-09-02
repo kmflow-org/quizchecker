@@ -58,8 +58,13 @@ func init() {
 
 func main() {
 	http.HandleFunc("/check", evaluateHandler)
+	http.HandleFunc("/health", healthCheckHandler)
 	log.Println("Starting external service on :8082")
 	log.Fatal(http.ListenAndServe(":8082", nil))
+}
+
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "All is well")
 }
 
 func evaluateHandler(w http.ResponseWriter, r *http.Request) {
