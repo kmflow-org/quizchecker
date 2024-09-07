@@ -38,9 +38,9 @@ jobs:
       # Step 5: Tag the image with the ECR repository URI
       - name: Tag Docker image for ECR
         run: |
-          docker tag quizchecker:latest ${{ secrets.AWS_ECR_REPOSITORY_URI }}/quizchecker:latest
+          docker tag quizchecker:latest ${{ vars.AWS_ECR_REPOSITORY_URI }}/quizchecker:latest
 
       # Step 6: Push the image to AWS ECR
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.AWS_ECR_REPOSITORY_URI }}/quizchecker:latest
+          docker push ${{ vars.AWS_ECR_REPOSITORY_URI }}/quizchecker:latest
