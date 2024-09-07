@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . /app
 
 RUN pwd && cat go.mod && ls -lathr && go mod download
+RUN go test
 RUN CGO_ENABLED=0 go build -o quizchecker .
 
 FROM ubuntu
