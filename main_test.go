@@ -1,30 +1,96 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
-// Example function to test (replace with actual functions)
-func ValidateAnswer(submission string, correctAnswer string) bool {
-	return submission == correctAnswer
-}
-
-// Unit test for ValidateAnswer function
-func TestValidateAnswer(t *testing.T) {
+// Unit test for evaluateAnswers
+func TestEvaluateAnswers(t *testing.T) {
+	// Test cases
 	tests := []struct {
-		submission    string
-		correctAnswer string
-		expected      bool
+		name             string
+		quiz             Quiz
+		submittedAnswers map[string][]string
+		expectedResults  []EvaluationResult
 	}{
-		{"A", "A", true},
-		{"B", "A", false},
-		{"", "A", false},
+		{
+			name: "All answers correct",
+			quiz: Quiz{
+				Questions: []Question{
+					{ID: 1, CorrectAnswers: []int{1, 2}},
+					{ID: 2, CorrectAnswers: []int{3}},
+				},
+			},
+			submittedAnswers: map[string][]string{
+				"question-1": {"1", "2"},
+				"question-2": {"3"},
+			},
+			expectedResults: []EvaluationResult{
+				{QuestionID: 1, Correct: true},
+				{QuestionID: 2, Correct: true},
+			},
+		},
+		{
+			name: "Some answers incorrect",
+			quiz: Quiz{
+				Questions: []Question{
+					{ID: 1, CorrectAnswers: []int{1, 2}},
+					{ID: 2, CorrectAnswers: []int{3}},
+				},
+			},
+			submittedAnswers: map[string][]string{
+				"question-1": {"1", "3"},
+				"question-2": {"4"},
+			},
+			expectedResults: []EvaluationResult{
+				{QuestionID: 1, Correct: false},
+				{QuestionID: 2, Correct: false},
+			},
+		},
+		{
+			name: "Empty submitted answers",
+			quiz: Quiz{
+				Questions: []Question{
+					{ID: 1, CorrectAnswers: []int{1, 2}},
+					{ID: 2, CorrectAnswers: []int{3}},
+				},
+			},
+			submittedAnswers: map[string][]string{
+				"question-1": {},
+				"question-2": {},
+			},
+			expectedResults: []EvaluationResult{
+				{QuestionID: 1, Correct: false},
+				{QuestionID: 2, Correct: false},
+			},
+		},
+		{
+			name: "Partially correct answers",
+			quiz: Quiz{
+				Questions: []Question{
+					{ID: 1, CorrectAnswers: []int{1, 2}},
+					{ID: 2, CorrectAnswers: []int{3}},
+				},
+			},
+			submittedAnswers: map[string][]string{
+				"question-1": {"1", "2"},
+				"question-2": {"4"},
+			},
+			expectedResults: []EvaluationResult{
+				{QuestionID: 1, Correct: true},
+				{QuestionID: 2, Correct: false},
+			},
+		},
 	}
 
-	for _, test := range tests {
-		result := ValidateAnswer(test.submission, test.correctAnswer)
-		if result != test.expected {
-			t.Errorf("ValidateAnswer(%s, %s) = %v; want %v", test.submission, test.correctAnswer, result, test.expected)
-		}
+	// Iterate over test cases
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			results := evaluateAnswers(&tt.quiz, tt.submittedAnswers)
+			if !reflect.DeepEqual(results, tt.expectedResults) {
+				t.Errorf("evaluateAnswers() = %v, want %v", results, tt.expectedResults)
+			}
+		})
 	}
 }
