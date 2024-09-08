@@ -6,11 +6,15 @@ on:
       - main  # Triggers the workflow when pushing to the `main` branch
     paths-ignore:
       - 'helm/**'
+      - 'README.md'
+      - '.gitignore'
   pull_request:
     branches:
       - main  # Triggers the workflow when a PR is made to the `main` branch
     paths-ignore:
-      - 'helm/**'    
+      - 'helm/**'
+      - 'README.md'
+      - '.gitignore' 
 jobs:
   build:
     runs-on: ubuntu-latest
