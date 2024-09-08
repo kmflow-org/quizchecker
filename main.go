@@ -64,7 +64,7 @@ func main() {
 }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "All is well here")
+	fmt.Fprintf(w, "All is well here again")
 }
 
 func evaluateHandler(w http.ResponseWriter, r *http.Request) {
