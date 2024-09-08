@@ -5,3 +5,4 @@ metadata:
 data:
   config.yaml: |
     quizUrl: {{.Values.config.quizUrl}}
+    blah: something
