@@ -4,5 +4,5 @@ helm:
     value: 533675705859.dkr.ecr.us-west-2.amazonaws.com/quizchecker
     forcestring: true
   - name: image.tag
-    value: latest@sha256:9770d25405479fed2357adb9228ebbab20f6054e6895b64f22c574ddd61fe539
+    value: latest@sha256:e1ee8fd19b9176e2804cce4015db1ff5430c8094f5a4c8c920a5301518486e38
     forcestring: true
