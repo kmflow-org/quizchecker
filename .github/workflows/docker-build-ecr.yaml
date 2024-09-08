@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main  # Triggers the workflow when pushing to the `main` branch
+    paths-ignore:
+      - 'helm/**'
   pull_request:
     branches:
       - main  # Triggers the workflow when a PR is made to the `main` branch
-
+    paths-ignore:
+      - 'helm/**'    
 jobs:
   build:
     runs-on: ubuntu-latest
