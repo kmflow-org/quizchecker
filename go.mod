@@ -1,4 +1,4 @@
-module kmflow.ort/quizchecker
+module kmflow.org/quizchecker
 
 go 1.23.0
 
